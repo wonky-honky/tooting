@@ -27,7 +27,7 @@ if ( APPLE )
 endif()
 
 # Main project information
-project( GDExtensionTemplate
+project( wonkyhonky
     LANGUAGES
         CXX
     VERSION
