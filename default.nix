@@ -1,7 +1,7 @@
 { lib, llvmPackages_18, cmake, pkgs }:
 
 llvmPackages_18.libcxxStdenv.mkDerivation rec {
-  pname = "wonkyhonky";
+  pname = "tooting";
   version = "0.1.0";
 
   src = ./.;

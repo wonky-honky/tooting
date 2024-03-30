@@ -46,7 +46,7 @@
 
           rec {
             # Update the name to something that suites your project.
-            name = "wonkyhonky_shell";
+            name = "tooting_shell";
             stdenv = pkgs.llvmPackages_18.libcxxStdenv;
             packages = with pkgs; [
               # Development Tools
