@@ -46,7 +46,7 @@
 
           rec {
             # Update the name to something that suites your project.
-            name = "tooting_shell";
+            name = "wonkyhonky_tooting_shell";
             stdenv = pkgs.llvmPackages_18.libcxxStdenv;
             packages = with pkgs; [
               # Development Tools
@@ -56,6 +56,8 @@
               python3
               git
               #            llvmPackages_18.libraries.libcxx
+              llvmPackages_18.libcxx
+              llvmPackages_18.compiler-rt
               cmake
               cmakeCurses
               ninja
@@ -63,6 +65,23 @@
               #            gtest
               vulkan-validation-layers
               # Build time and Run time dependencies
+              pipewire
+              libmpg123
+              opusfile
+              libogg
+              libopus
+              libvorbis
+              ffmpeg
+              alsa-lib
+              flac
+              fftw
+              fmt_8
+              libsndfile
+              (rtmidi.override { stdenv = pkgs.llvmPackages_18.libcxxStdenv; })
+              SDL2
+              zlib
+              sqlite
+              portaudio
               vulkan-loader
               vulkan-headers
               vulkan-tools
@@ -74,7 +93,6 @@
               xorg.libXv
               xorg.libXrandr
               xorg.libxcb
-              zlib
               #            gtk3
               libuuid
               wayland
@@ -92,6 +110,8 @@
             #      '';
           };
 
-        packages.default = pkgs.callPackage ./default.nix { };
+        packages.default = pkgs.callPackage ./default.nix {
+          #          stdenv = pkgs.llvmPackages_18.libcxxStdenv;
+        };
       });
 }

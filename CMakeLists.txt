@@ -3,6 +3,8 @@
 cmake_minimum_required( VERSION 3.22 )
 
 message( STATUS "Using CMake ${CMAKE_VERSION}" )
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Require out-of-source builds
 file( TO_CMAKE_PATH "${PROJECT_BINARY_DIR}/CMakeLists.txt" LOC_PATH )
@@ -17,9 +19,17 @@ list( APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/" )
 # Turn on link time optimization for everything
 set( CMAKE_INTERPROCEDURAL_OPTIMIZATION_RELEASE ON )
 
+# furnace options
+set(BUILD_GUI=ON SYSTEM_FFTW=ON SYSTEM_FMT=ON SYSTEM_LIBSNDFILE=ON SYSTEM_RTMIDI=ON SYSTEM_SDL2=ON SYSTEM_ZLIB=ON SYSTEM_PORTAUDIO=ON WITH_PORTAUDIO=ON WITH_RENDER_SDL=ON WITH_RENDER_OPENGL=ON)
+add_subdirectory(extern/furnace)
 # Output compile commands to compile_commands.json (for debugging CMake issues)
-set( CMAKE_EXPORT_COMPILE_COMMANDS ON )
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+if(CMAKE_EXPORT_COMPILE_COMMANDS)
+  set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES 
+      ${CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES})
+endif()
+add_link_options("-fuse-ld=lld")
 # Build universal lib on macOS
 # Note that CMAKE_OSX_ARCHITECTURES must be set before project().
 if ( APPLE )
