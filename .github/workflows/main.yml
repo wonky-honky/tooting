@@ -25,7 +25,7 @@ jobs:
         build_type: ['Debug', 'Release']
         config:
           - { name: '🍏 macOS Clang', os: macos-14 }
-          - { name: '🐧 Linux GCC', os: ubuntu-latest }
+          - { name: '🐧 Linux Clang', os: ubuntu-latest }
           - { name: '🪟 Windows MSVC', os: windows-latest }
 
     name: 🛠 Build / ${{ matrix.config.name }} (${{ matrix.build_type }})
@@ -77,7 +77,7 @@ jobs:
 
       - name: ccache
         uses: hendrikmuhs/ccache-action@v1.2
-#        if: matrix.config.os != 'macos-14'
+        if: matrix.config.os != 'macos-14'
         with:
           max-size: '10G'
           key: ${{ matrix.config.os }}-${{ matrix.build_type }}
