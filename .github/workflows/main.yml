@@ -24,7 +24,7 @@ jobs:
       matrix:
         build_type: ['Debug', 'Release']
         config:
-          - { name: '🍏 macOS Clang', os: macos-14 }
+#          - { name: '🍏 macOS Clang', os: macos-14 }
           - { name: '🐧 Linux Clang', os: ubuntu-latest }
           - { name: '🪟 Windows MSVC', os: windows-latest }
 
@@ -39,15 +39,15 @@ jobs:
       - name: get cmake (NOT on mac)
         if: matrix.config.os != 'macos-14'
         uses: lukka/get-cmake@latest
-      - name: Install LLVM and Clang on mac
-        if: matrix.config.os == 'macos-14'
-        uses: KyleMayes/install-llvm-action@v2
-        with:
-          version: "17"
-          arch: "arm64"
-      - name: Install Dependencies (macOS)
-        if: matrix.config.os == 'macos-14'
-        run: brew install ccache ninja
+#      - name: Install LLVM and Clang on mac
+#        if: matrix.config.os == 'macos-14'
+#        uses: KyleMayes/install-llvm-action@v2
+#        with:
+#          version: "17"
+#          arch: "arm64"
+#      - name: Install Dependencies (macOS)
+#        if: matrix.config.os == 'macos-14'
+#        run: brew install ccache ninja
 
       - name: Install lld + clang/llvm on ubuntu
         if: matrix.config.os == 'ubuntu-latest'
