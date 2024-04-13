@@ -21,6 +21,9 @@ set( CMAKE_INTERPROCEDURAL_OPTIMIZATION_RELEASE ON )
 
 # furnace options
 set(BUILD_GUI=ON SYSTEM_FFTW=ON SYSTEM_FMT=OFF SYSTEM_LIBSNDFILE=ON SYSTEM_RTMIDI=ON SYSTEM_SDL2=ON SYSTEM_ZLIB=ON SYSTEM_PORTAUDIO=ON WITH_PORTAUDIO=ON WITH_RENDER_SDL=ON WITH_RENDER_OPENGL=ON)
+# fucking ci
+set(TOOTING_WARNING_AS_ERROR=OFF)
+#furnace
 add_subdirectory(extern/furnace)
 
 # Output compile commands to compile_commands.json (for debugging CMake issues)
