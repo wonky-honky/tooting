@@ -1,12 +1,13 @@
 // Copied from godot-cpp/test/src and modified.
 
+#include "furnace/src/fileutils.h"
 #include "godot_cpp/classes/global_constants.hpp"
 #include "godot_cpp/classes/label.hpp"
 #include "godot_cpp/core/class_db.hpp"
 #include "godot_cpp/variant/utility_functions.hpp"
 
 #include "Example.h"
-
+#include "furnace/src/engine/engine.h"
 // Used to mark unused parameters to indicate intent and suppress warnings.
 #define UNUSED( expr ) (void)( expr )
 
@@ -130,6 +131,77 @@ void ExampleMin::_bind_methods()
 
 Example::Example()
 {
+    DivEngine e;
+    e.preInit(true);
+
+    auto fileName = "testres/MegadriveOverdrive.fur";
+    FILE* f=ps_fopen(fileName,"rb");
+    if (f==NULL) {
+      reportError(fmt::sprintf("couldn't open file! (%s)",strerror(errno)));
+      e.everythingOK();
+      finishLogFile();
+
+    }
+    if (fseek(f,0,SEEK_END)<0) {
+      reportError(fmt::sprintf("couldn't open file! (couldn't get file size: %s)",strerror(errno)));
+      e.everythingOK();
+      fclose(f);
+      finishLogFile();
+    }
+    ssize_t len=ftell(f);
+    if (len==(SIZE_MAX>>1)) {
+      reportError(fmt::sprintf("couldn't open file! (couldn't get file length: %s)",strerror(errno)));
+      e.everythingOK();
+      fclose(f);
+      finishLogFile();
+    }
+    if (len<1) {
+      if (len==0) {
+        reportError("that file is empty!");
+      } else {
+        reportError(fmt::sprintf("couldn't open file! (tell error: %s)",strerror(errno)));
+      }
+      e.everythingOK();
+      fclose(f);
+      finishLogFile();
+
+    }
+    unsigned char* file=new unsigned char[len];
+    if (fseek(f,0,SEEK_SET)<0) {
+      reportError(fmt::sprintf("couldn't open file! (size error: %s)",strerror(errno)));
+      e.everythingOK();
+      fclose(f);
+      delete[] file;
+      finishLogFile();
+
+    }
+    if (fread(file,1,(size_t)len,f)!=(size_t)len) {
+      reportError(fmt::sprintf("couldn't open file! (read error: %s)",strerror(errno)));
+      e.everythingOK();
+      fclose(f);
+      delete[] file;
+      finishLogFile();
+    }
+    fclose(f);
+    if (!e.load(file,(size_t)len,fileName)) {
+      reportError(fmt::sprintf("could not open file! (%s)",e.getLastError()));
+      e.everythingOK();
+      finishLogFile();
+    }
+
+
+    e.dumpSongInfo();
+
+
+
+
+  if (!e.init()) {
+
+      reportError("could not initialize engine!");
+      finishLogFile();
+  }
+  logI("playing...");
+  e.play();
     godot::UtilityFunctions::print( "Constructor." );
 }
 
