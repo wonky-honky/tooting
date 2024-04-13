@@ -88,7 +88,7 @@ jobs:
           cmake
           -B tooting-build
           -G "Ninja"
-          -DCMAKE_TOOLCHAIN_FILE=./cmake/toolchain.cmake
+          -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/cmake/toolchain.cmake
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           --install-prefix ${{ github.workspace }}/install-${{ matrix.build_type }}
           .
