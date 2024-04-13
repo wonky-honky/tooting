@@ -40,12 +40,24 @@ jobs:
       - name: Install Dependencies (macOS)
         if: matrix.config.os == 'macos-latest'
         run: brew install ccache ninja
-
+      - name: get cmake
+        uses: lukka/get-cmake@latest
+      - name: Install LLVM and Clang on mac
+        if: matrix.config.os == 'macos-latest'
+        uses: KyleMayes/install-llvm-action@v2
+        with:
+          version: "17"
+          
       - name: Install Dependencies (Linux)
         if: matrix.config.os == 'ubuntu-latest'
         run: |
           sudo apt-get update
-          sudo apt-get install -y ccache ninja-build
+          sudo apt-get install -y ccache ninja-build git libpulse libsdl2-dev \
+          libfmt-dev \
+          librtmidi-dev \
+          libsndfile1-dev \
+          zlib1g-dev \
+          libjack-jackd2-dev
 
       - name: Install Dependencies (Windows)
         if: matrix.config.os == 'windows-latest'
@@ -64,20 +76,20 @@ jobs:
 
       - name: Configure
         run: >
-          mkdir GDExtension-build
+          mkdir tooting-build
 
           cmake
-          -B GDExtension-build
+          -B tooting-build
           -G "Ninja"
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           --install-prefix ${{ github.workspace }}/install-${{ matrix.build_type }}
           .
 
       - name: Build
-        run: cmake --build GDExtension-build
+        run: cmake --build tooting-build
 
       - name: Install
-        run: cmake --install GDExtension-build
+        run: cmake --install tooting-build
 
       - name: Upload artifact (Debug)
         if: matrix.build_type == 'Debug'
