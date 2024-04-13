@@ -47,6 +47,12 @@ jobs:
         uses: KyleMayes/install-llvm-action@v2
         with:
           version: "17"
+          arch: "arm64"
+      - name: Install lld on ubuntu
+        if: matrix.config.os == 'ubuntu-latest'
+        uses: KyleMayes/install-llvm-action@v2
+        with:
+          version: "17"
           
       - name: Install Dependencies (Linux)
         if: matrix.config.os == 'ubuntu-latest'
