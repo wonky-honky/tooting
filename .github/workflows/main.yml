@@ -59,7 +59,7 @@ jobs:
         if: matrix.config.os == 'ubuntu-latest'
         run: |
           sudo apt-get update
-          sudo apt-get install -y ccache ninja-build git libasound2-dev librtmidi-dev libsndfile1-dev zlib1g-dev
+          sudo apt-get install -y ccache ninja-build git libasound2-dev librtmidi-dev libsndfile1-dev zlib1g-dev libfmt-dev
 
       - name: Install Dependencies (Windows)
         if: matrix.config.os == 'windows-latest'
@@ -93,7 +93,7 @@ jobs:
           -DSYSTEM_ZLIB=ON
           -DSYSTEM_RTMIDI=ON
           -DSYSTEM_FFTW=OFF
-          -DSYSTEM_FMT=OFF
+          -DSYSTEM_FMT=ON
           -DSYSTEM_LIBSNDFILE=ON
           -DSYSTEM_FREETYPE=OFF
           -DWITH_RENDER_OPENGL=OFF
