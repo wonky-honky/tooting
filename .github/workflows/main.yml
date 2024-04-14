@@ -86,6 +86,9 @@ jobs:
           -B tooting-build
           -G "Ninja"
           -DBUILD_GUI=OFF
+          -DWITH_DEMOS=OFF
+          -DWITH_INSTRUMENTS=OFF
+          -DWITH_WAVETABLES=OFF
           -DTOOTING_WARNING_AS_ERROR=OFF
           -DSYSTEM_ZLIB=OFF
           -DSYSTEM_RTMIDI=OFF
@@ -93,6 +96,12 @@ jobs:
           -DSYSTEM_FMT=OFF
           -DSYSTEM_LIBSNDFILE=OFF
           -DSYSTEM_FREETYPE=OFF
+          -DWITH_RENDER_OPENGL=OFF
+          -DWITH_RENDER_SDL=OFF
+          -DWITH_RENDER_DX9=OFF
+          -DWITH_RENDER_DX11=OFF
+          -DUSE_GLES=OFF
+          -DUSE_SDL2=OFF
           -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/cmake/toolchain.cmake
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           --install-prefix ${{ github.workspace }}/install-${{ matrix.build_type }}
@@ -107,6 +116,22 @@ jobs:
           -B tooting-build
           -G "Ninja"
           -DBUILD_GUI=OFF
+          -DWITH_DEMOS=OFF
+          -DWITH_INSTRUMENTS=OFF
+          -DWITH_WAVETABLES=OFF
+          -DTOOTING_WARNING_AS_ERROR=OFF
+          -DSYSTEM_ZLIB=OFF
+          -DSYSTEM_RTMIDI=OFF
+          -DSYSTEM_FFTW=OFF
+          -DSYSTEM_FMT=OFF
+          -DSYSTEM_LIBSNDFILE=OFF
+          -DSYSTEM_FREETYPE=OFF
+          -DWITH_RENDER_OPENGL=OFF
+          -DWITH_RENDER_SDL=OFF
+          -DWITH_RENDER_DX9=OFF
+          -DWITH_RENDER_DX11=OFF
+          -DUSE_GLES=OFF
+          -DUSE_SDL2=OFF
           -DTOOTING_WARNING_AS_ERROR=OFF
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           --install-prefix ${{ github.workspace }}/install-${{ matrix.build_type }}
