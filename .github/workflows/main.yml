@@ -60,7 +60,6 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y ccache ninja-build git libpulse-dev libsdl2-dev \
-          libfmt-dev \
           librtmidi-dev \
           libsndfile1-dev \
           zlib1g-dev \
@@ -90,6 +89,8 @@ jobs:
           cmake
           -B tooting-build
           -G "Ninja"
+          -DTOOTING_WARNING_AS_ERROR=OFF
+          -DSYSTEM_FMT=OFF
           -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/cmake/toolchain.cmake
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           --install-prefix ${{ github.workspace }}/install-${{ matrix.build_type }}
@@ -103,6 +104,8 @@ jobs:
           cmake
           -B tooting-build
           -G "Ninja"
+          -DTOOTING_WARNING_AS_ERROR=OFF
+          -DSYSTEM_FMT=OFF
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           --install-prefix ${{ github.workspace }}/install-${{ matrix.build_type }}
           .

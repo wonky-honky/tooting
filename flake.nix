@@ -75,7 +75,7 @@
               alsa-lib
               flac
               fftw
-              fmt_8
+              #              fmt_8
               libsndfile
               (rtmidi.override { stdenv = pkgs.llvmPackages_18.libcxxStdenv; })
               SDL2

@@ -19,10 +19,8 @@ list( APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/" )
 # Turn on link time optimization for everything
 set( CMAKE_INTERPROCEDURAL_OPTIMIZATION_RELEASE ON )
 
-# furnace options
-set(BUILD_GUI=ON SYSTEM_FFTW=ON SYSTEM_FMT=OFF SYSTEM_LIBSNDFILE=ON SYSTEM_RTMIDI=ON SYSTEM_SDL2=ON SYSTEM_ZLIB=ON SYSTEM_PORTAUDIO=ON WITH_PORTAUDIO=ON WITH_RENDER_SDL=ON WITH_RENDER_OPENGL=ON)
-# fucking ci
-set(TOOTING_WARNING_AS_ERROR=OFF)
+
+#set(BUILD_GUI=ON SYSTEM_FFTW=ON SYSTEM_FMT=OFF SYSTEM_LIBSNDFILE=ON SYSTEM_RTMIDI=ON SYSTEM_SDL2=ON SYSTEM_ZLIB=ON SYSTEM_PORTAUDIO=ON WITH_PORTAUDIO=ON WITH_RENDER_SDL=ON WITH_RENDER_OPENGL=ON)
 #furnace
 add_subdirectory(extern/furnace)
 
@@ -47,7 +45,7 @@ project( tooting
     VERSION
         0.1.0
 )
-include_directories(${PROJECT_SOURCE_DIR}/extern)
+
 # Create our library
 add_library( ${PROJECT_NAME} SHARED )
 
@@ -56,6 +54,7 @@ target_compile_features( ${PROJECT_NAME}
         cxx_std_20
 )
 
+include_directories(${PROJECT_NAME} ${PROJECT_SOURCE_DIR}/extern ${PROJECT_SOURCE_DIR}/extern/furnace/extern/fmt/include )
 # LIB_ARCH is the architecture being built. It is set to the build system's architecture.
 # For macOS, we build a universal library (both arm64 and x86_64).
 set( LIB_ARCH ${CMAKE_SYSTEM_PROCESSOR} )
@@ -95,6 +94,20 @@ add_custom_command(
             "${CMAKE_SOURCE_DIR}/support_files"
             ${BUILD_OUTPUT_DIR}
 )
+add_custom_command(
+  TARGET ${PROJECT_NAME} POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy
+  $<TARGET_FILE:furnace>
+  "${BUILD_OUTPUT_DIR}/${LIB_DIR}/"
+)
+file(MAKE_DIRECTORY "${BUILD_OUTPUT_DIR}/testres")
+add_custom_command(
+  TARGET ${PROJECT_NAME} POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy
+  "${PROJECT_SOURCE_DIR}/extern/furnace/demos/genesis/MegadriveOverdrive.fur"
+  "${BUILD_OUTPUT_DIR}/testres/"
+)
+
 
 # Warnings
 include( CompilerWarnings )
@@ -108,6 +121,7 @@ add_subdirectory( src )
 set( INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}/" )
 
 message( STATUS "Install directory: ${INSTALL_DIR}")
+
 
 install( TARGETS ${PROJECT_NAME}
     LIBRARY

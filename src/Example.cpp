@@ -8,6 +8,8 @@
 
 #include "Example.h"
 #include "furnace/src/engine/engine.h"
+#include <godot_cpp/classes/file_access.hpp>
+#include <godot_cpp/classes/worker_thread_pool.hpp>
 // Used to mark unused parameters to indicate intent and suppress warnings.
 #define UNUSED( expr ) (void)( expr )
 
@@ -131,77 +133,62 @@ void ExampleMin::_bind_methods()
 
 Example::Example()
 {
-    DivEngine e;
-    e.preInit(true);
+    auto tp = godot::WorkerThreadPool::get_singleton();
+    tp->add_native_task(
+        []( void * ) {
+            DivEngine e;
+            e.preInit( true );
 
-    auto fileName = "testres/MegadriveOverdrive.fur";
-    FILE* f=ps_fopen(fileName,"rb");
-    if (f==NULL) {
-      reportError(fmt::sprintf("couldn't open file! (%s)",strerror(errno)));
-      e.everythingOK();
-      finishLogFile();
+            auto fff = godot::FileAccess::open( "res://project.godot", godot::FileAccess::READ );
+            auto fileName = ( fff->get_path_absolute().get_base_dir() +
+                              "/addons/tooting/testres/MegadriveOverdrive.fur" )
+                                .utf8();
+            logI( fmt::sprintf( "trying to open %s", fileName.get_data() ).c_str() );
 
-    }
-    if (fseek(f,0,SEEK_END)<0) {
-      reportError(fmt::sprintf("couldn't open file! (couldn't get file size: %s)",strerror(errno)));
-      e.everythingOK();
-      fclose(f);
-      finishLogFile();
-    }
-    ssize_t len=ftell(f);
-    if (len==(SIZE_MAX>>1)) {
-      reportError(fmt::sprintf("couldn't open file! (couldn't get file length: %s)",strerror(errno)));
-      e.everythingOK();
-      fclose(f);
-      finishLogFile();
-    }
-    if (len<1) {
-      if (len==0) {
-        reportError("that file is empty!");
-      } else {
-        reportError(fmt::sprintf("couldn't open file! (tell error: %s)",strerror(errno)));
-      }
-      e.everythingOK();
-      fclose(f);
-      finishLogFile();
+            FILE *f = ps_fopen( fileName, "rb" );
+            if ( fseek( f, 0, SEEK_END ) < 0 )
+            {
+                logE( fmt::sprintf( "couldn't open file! (couldn't get file size: %s)",
+                                    strerror( errno ) )
+                          .c_str() );
+                fclose( f );
+            }
+            ssize_t len = ftell( f );
 
-    }
-    unsigned char* file=new unsigned char[len];
-    if (fseek(f,0,SEEK_SET)<0) {
-      reportError(fmt::sprintf("couldn't open file! (size error: %s)",strerror(errno)));
-      e.everythingOK();
-      fclose(f);
-      delete[] file;
-      finishLogFile();
+            unsigned char *file = new unsigned char[len];
+            if ( fseek( f, 0, SEEK_SET ) < 0 )
+            {
+                logE( fmt::sprintf( "couldn't open file! (size error: %s)", strerror( errno ) )
+                          .c_str() );
+            }
+            if ( fread( file, 1, (size_t)len, f ) != (size_t)len )
+            {
+                logE( fmt::sprintf( "couldn't open file! (read error: %s)", strerror( errno ) )
+                          .c_str() );
+            }
+            fclose( f );
+            if ( !e.load( file, (size_t)len, fileName ) )
+            {
+                logE( fmt::sprintf( "could not open file! (%s)", e.getLastError() ).c_str() );
+            }
 
-    }
-    if (fread(file,1,(size_t)len,f)!=(size_t)len) {
-      reportError(fmt::sprintf("couldn't open file! (read error: %s)",strerror(errno)));
-      e.everythingOK();
-      fclose(f);
-      delete[] file;
-      finishLogFile();
-    }
-    fclose(f);
-    if (!e.load(file,(size_t)len,fileName)) {
-      reportError(fmt::sprintf("could not open file! (%s)",e.getLastError()));
-      e.everythingOK();
-      finishLogFile();
-    }
+            e.dumpSongInfo();
 
+            if ( !e.init() )
+            {
+                logE( "Couldn't init furnace engine" );
+            }
+            logI( "playing..." );
 
-    e.dumpSongInfo();
-
-
-
-
-  if (!e.init()) {
-
-      reportError("could not initialize engine!");
-      finishLogFile();
-  }
-  logI("playing...");
-  e.play();
+            e.play();
+            e.setLoops( 1 );
+            while ( e.isPlaying() )
+            {
+                std::this_thread::sleep_for( std::chrono::duration( std::chrono::seconds( 1 ) ) );
+            }
+            e.quit();
+        },
+        NULL );
     godot::UtilityFunctions::print( "Constructor." );
 }
 
