@@ -90,6 +90,9 @@ jobs:
           -B tooting-build
           -G "Ninja"
           -DTOOTING_WARNING_AS_ERROR=OFF
+          -DSYSTEM_ZLIB=ON
+          -DSYSTEM_RTMIDI=ON
+          -DSYSTEM_FFTW=ON
           -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/cmake/toolchain.cmake
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           --install-prefix ${{ github.workspace }}/install-${{ matrix.build_type }}
@@ -102,6 +105,7 @@ jobs:
 
           cmake
           -B tooting-build
+          -G "Ninja"
           -DTOOTING_WARNING_AS_ERROR=OFF
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           --install-prefix ${{ github.workspace }}/install-${{ matrix.build_type }}
