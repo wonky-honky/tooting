@@ -59,7 +59,7 @@ jobs:
         if: matrix.config.os == 'ubuntu-latest'
         run: |
           sudo apt-get update
-          sudo apt-get install -y ccache ninja-build git libpulse-dev libfftw3-dev libsdl2-dev \
+          sudo apt-get install -y ccache ninja-build libfmt-dev git libpulse-dev libfftw3-dev libsdl2-dev \
           librtmidi-dev \
           libsndfile1-dev \
           zlib1g-dev \
@@ -90,7 +90,6 @@ jobs:
           -B tooting-build
           -G "Ninja"
           -DTOOTING_WARNING_AS_ERROR=OFF
-          -DBUILD_GUI=ON -DSYSTEM_FFTW=ON -DSYSTEM_FMT=OFF -DSYSTEM_LIBSNDFILE=ON -DSYSTEM_RTMIDI=ON -DSYSTEM_SDL2=ON -DSYSTEM_ZLIB=ON -DSYSTEM_PORTAUDIO=ON -DWITH_PORTAUDIO=ON -DWITH_RENDER_SDL=ON -DWITH_RENDER_OPENGL=ON
           -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/cmake/toolchain.cmake
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           --install-prefix ${{ github.workspace }}/install-${{ matrix.build_type }}
@@ -101,22 +100,11 @@ jobs:
         run: >
           mkdir tooting-build
 
-          export CMAKE_EXTRA_ARGS=()
-
-          CMAKE_EXTRA_ARGS+=('-DCMAKE_POLICY_DEFAULT_CMP0091=NEW')
-          
-          if [ '${{ env.BUILD_TYPE }}' == 'Debug' ]; then
-            CMAKE_EXTRA_ARGS+=('-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDebug')
-          else
-            CMAKE_EXTRA_ARGS+=('-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded')
-          fi
-
           cmake
           -B tooting-build
           -DTOOTING_WARNING_AS_ERROR=OFF
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           --install-prefix ${{ github.workspace }}/install-${{ matrix.build_type }}
-          "${CMAKE_EXTRA_ARGS[@]}"
           .
 
       - name: Build
