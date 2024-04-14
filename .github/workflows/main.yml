@@ -59,11 +59,7 @@ jobs:
         if: matrix.config.os == 'ubuntu-latest'
         run: |
           sudo apt-get update
-          sudo apt-get install -y libfreetype-dev ccache ninja-build git libfmt-dev libpulse-dev libfftw3-dev libsdl2-dev \
-          librtmidi-dev \
-          libsndfile1-dev \
-          zlib1g-dev \
-          libjack-jackd2-dev
+          sudo apt-get install -y ccache ninja-build git
 
       - name: Install Dependencies (Windows)
         if: matrix.config.os == 'windows-latest'
@@ -89,13 +85,14 @@ jobs:
           cmake
           -B tooting-build
           -G "Ninja"
+          -DBUILD_GUI=OFF
           -DTOOTING_WARNING_AS_ERROR=OFF
-          -DSYSTEM_ZLIB=ON
-          -DSYSTEM_RTMIDI=ON
-          -DSYSTEM_FFTW=ON
-          -DSYSTEM_FMT=ON
-          -DSYSTEM_LIBSNDFILE=ON
-          -DSYSTEM_FREETYPE=ON
+          -DSYSTEM_ZLIB=OFF
+          -DSYSTEM_RTMIDI=OFF
+          -DSYSTEM_FFTW=OFF
+          -DSYSTEM_FMT=OFF
+          -DSYSTEM_LIBSNDFILE=OFF
+          -DSYSTEM_FREETYPE=OFF
           -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/cmake/toolchain.cmake
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           --install-prefix ${{ github.workspace }}/install-${{ matrix.build_type }}
@@ -109,6 +106,7 @@ jobs:
           cmake
           -B tooting-build
           -G "Ninja"
+          -DBUILD_GUI=OFF
           -DTOOTING_WARNING_AS_ERROR=OFF
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           --install-prefix ${{ github.workspace }}/install-${{ matrix.build_type }}

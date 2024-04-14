@@ -94,12 +94,12 @@ add_custom_command(
             "${CMAKE_SOURCE_DIR}/support_files"
             ${BUILD_OUTPUT_DIR}
 )
-add_custom_command(
-  TARGET ${PROJECT_NAME} POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E copy
-  $<TARGET_FILE:furnace>
-  "${BUILD_OUTPUT_DIR}/${LIB_DIR}/"
-)
+#add_custom_command(
+#  TARGET ${PROJECT_NAME} POST_BUILD
+#  COMMAND ${CMAKE_COMMAND} -E copy
+#  $<TARGET_FILE:furnace>
+#  "${BUILD_OUTPUT_DIR}/${LIB_DIR}/"
+#)
 file(MAKE_DIRECTORY "${BUILD_OUTPUT_DIR}/testres")
 add_custom_command(
   TARGET ${PROJECT_NAME} POST_BUILD
