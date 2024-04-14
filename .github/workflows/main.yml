@@ -90,7 +90,7 @@ jobs:
           -B tooting-build
           -G "Ninja"
           -DTOOTING_WARNING_AS_ERROR=OFF
-          -DSYSTEM_FMT=OFF
+          -DBUILD_GUI=ON -DSYSTEM_FFTW=ON -DSYSTEM_FMT=OFF -DSYSTEM_LIBSNDFILE=ON -DSYSTEM_RTMIDI=ON -DSYSTEM_SDL2=ON -DSYSTEM_ZLIB=ON -DSYSTEM_PORTAUDIO=ON -DWITH_PORTAUDIO=ON -DWITH_RENDER_SDL=ON -DWITH_RENDER_OPENGL=ON
           -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/cmake/toolchain.cmake
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           --install-prefix ${{ github.workspace }}/install-${{ matrix.build_type }}
@@ -105,7 +105,7 @@ jobs:
           -B tooting-build
           -G "Ninja"
           -DTOOTING_WARNING_AS_ERROR=OFF
-          -DSYSTEM_FMT=OFF
+          -DBUILD_GUI=ON -DSYSTEM_FFTW=ON -DSYSTEM_FMT=OFF -DSYSTEM_LIBSNDFILE=ON -DSYSTEM_RTMIDI=ON -DSYSTEM_SDL2=ON -DSYSTEM_ZLIB=ON -DSYSTEM_PORTAUDIO=ON -DWITH_PORTAUDIO=ON -DWITH_RENDER_SDL=ON -DWITH_RENDER_OPENGL=ON
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           --install-prefix ${{ github.workspace }}/install-${{ matrix.build_type }}
           .
