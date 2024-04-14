@@ -94,7 +94,7 @@ jobs:
           -DSYSTEM_RTMIDI=ON
           -DSYSTEM_FFTW=ON
           -DSYSTEM_FMT=OFF
-          -DSYSTEM_SNDFILE=ON
+          -DSYSTEM_LIBSNDFILE=ON
           -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/cmake/toolchain.cmake
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           --install-prefix ${{ github.workspace }}/install-${{ matrix.build_type }}
