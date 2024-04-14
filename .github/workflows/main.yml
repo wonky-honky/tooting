@@ -59,7 +59,7 @@ jobs:
         if: matrix.config.os == 'ubuntu-latest'
         run: |
           sudo apt-get update
-          sudo apt-get install -y ccache ninja-build git
+          sudo apt-get install -y ccache ninja-build git libasound2-dev
 
       - name: Install Dependencies (Windows)
         if: matrix.config.os == 'windows-latest'
