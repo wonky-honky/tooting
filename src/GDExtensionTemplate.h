@@ -3,19 +3,17 @@
 
 #include "godot_cpp/classes/object.hpp"
 
-namespace godot
-{
-    class ClassDB;
-};
+namespace godot {
+class ClassDB;
+}; // namespace godot
 
-class GDExtensionTemplate : public godot::Object
-{
-    GDCLASS( GDExtensionTemplate, godot::Object )
+class GDExtensionTemplate : public godot::Object {
+  GDCLASS(GDExtensionTemplate, godot::Object)
 
 public:
-    static godot::String version();
-    static godot::String godotCPPVersion();
+  static godot::String version();
+  static godot::String godotCPPVersion();
 
 private:
-    static void _bind_methods();
+  static void _bind_methods();
 };
