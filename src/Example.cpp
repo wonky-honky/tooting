@@ -1,13 +1,11 @@
 // Copied from godot-cpp/test/src and modified.
 
-#include "furnace/src/fileutils.h"
 #include "godot_cpp/classes/global_constants.hpp"
 #include "godot_cpp/classes/label.hpp"
 #include "godot_cpp/core/class_db.hpp"
 #include "godot_cpp/variant/utility_functions.hpp"
 
 #include "Example.h"
-#include "furnace/src/engine/engine.h"
 #include <godot_cpp/classes/file_access.hpp>
 #include <godot_cpp/classes/worker_thread_pool.hpp>
 // Used to mark unused parameters to indicate intent and suppress warnings.
@@ -116,74 +114,7 @@ void ExampleMin::_bind_methods() {}
 
 //// Example
 
-Example::Example() {
-  auto tp = godot::WorkerThreadPool::get_singleton();
-  tp->add_native_task(
-      [](void *) {
-        DivEngine e;
-        e.preInit(true);
-
-        auto fff = godot::FileAccess::open(
-            "res://project.godot",
-            godot::FileAccess::READ
-        );
-        auto fileName = (fff->get_path_absolute().get_base_dir()
-                         + "/addons/tooting/testres/MegadriveOverdrive.fur")
-                            .utf8();
-        logI(fmt::sprintf("trying to open %s", fileName.get_data()).c_str());
-
-        FILE * f = ps_fopen(fileName, "rb");
-        if (fseek(f, 0, SEEK_END) < 0) {
-          logE(fmt::sprintf(
-                   "couldn't open file! (couldn't get file size: %s)",
-                   strerror(errno)
-          )
-                   .c_str());
-          fclose(f);
-        }
-        ssize_t len          = ftell(f);
-
-        unsigned char * file = new unsigned char[len];
-        if (fseek(f, 0, SEEK_SET) < 0) {
-          logE(fmt::sprintf(
-                   "couldn't open file! (size error: %s)",
-                   strerror(errno)
-          )
-                   .c_str());
-        }
-        if (fread(file, 1, (size_t)len, f) != (size_t)len) {
-          logE(fmt::sprintf(
-                   "couldn't open file! (read error: %s)",
-                   strerror(errno)
-          )
-                   .c_str());
-        }
-        fclose(f);
-        if (!e.load(file, (size_t)len, fileName)) {
-          logE(fmt::sprintf("could not open file! (%s)", e.getLastError())
-                   .c_str());
-        }
-
-        e.dumpSongInfo();
-
-        if (!e.init()) {
-          logE("Couldn't init furnace engine");
-        }
-        logI("playing...");
-
-        e.play();
-        e.setLoops(1);
-        while (e.isPlaying()) {
-          std::this_thread::sleep_for(
-              std::chrono::duration(std::chrono::seconds(1))
-          );
-        }
-        e.quit();
-      },
-      NULL
-  );
-  godot::UtilityFunctions::print("Constructor.");
-}
+Example::Example() { godot::UtilityFunctions::print("Constructor."); }
 
 Example::~Example() { godot::UtilityFunctions::print("Destructor."); }
 

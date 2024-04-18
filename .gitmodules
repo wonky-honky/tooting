@@ -4,3 +4,6 @@
 [submodule "extern/furnace"]
 	path = extern/furnace
 	url = https://github.com/pillowtrucker/furnace.git
+[submodule "extern/rustex"]
+	path = extern/rustex
+	url = https://github.com/eoan-ermine/rustex.git

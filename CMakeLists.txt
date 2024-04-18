@@ -24,13 +24,14 @@ set( CMAKE_INTERPROCEDURAL_OPTIMIZATION_RELEASE ON )
 #furnace
 add_subdirectory(extern/furnace)
 
-# Output compile commands to compile_commands.json (for debugging CMake issues)
+add_subdirectory(extern/rustex)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 if(CMAKE_EXPORT_COMPILE_COMMANDS)
   set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES 
       ${CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES})
 endif()
+add_compile_options("-fexperimental-library")
 add_link_options("-fuse-ld=lld")
 # Build universal lib on macOS
 # Note that CMAKE_OSX_ARCHITECTURES must be set before project().
@@ -171,4 +172,5 @@ target_link_libraries( ${PROJECT_NAME}
     PRIVATE
         godot-cpp
         furnace
+        rustex
 )
