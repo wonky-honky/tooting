@@ -3,7 +3,7 @@
 cmake_minimum_required( VERSION 3.22 )
 
 message( STATUS "Using CMake ${CMAKE_VERSION}" )
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Require out-of-source builds
@@ -52,7 +52,7 @@ add_library( ${PROJECT_NAME} SHARED )
 
 target_compile_features( ${PROJECT_NAME}
     PRIVATE
-        cxx_std_20
+        cxx_std_23
 )
 
 include_directories(${PROJECT_NAME} ${PROJECT_SOURCE_DIR}/extern ${PROJECT_SOURCE_DIR}/extern/furnace/extern/fmt/include )
