@@ -11,7 +11,8 @@
 
 constexpr char const * default_filename =
     "/addons/tooting/testres/MegadriveOverdrive.fur";
-
+constexpr char const OCTAVE        = 12;
+constexpr char const OCTAVE_OFFSET = OCTAVE * 5;
 enum class Note {
   C,
   Cis,
@@ -56,13 +57,18 @@ protected:
   static void _bind_methods();
   void init();
   void deinit();
+  //  void tick();
   void toot(godot::String path = default_filename);
   void load_song(godot::String path = default_filename);
   void play_note(Toot::ShittyNote n);
-  void doot(Note note);
+  void depress_note(Toot::ShittyNote n);
+
   rustex::mutex<WrappedFurnace> _wf;
 
 private:
+  void dedoot(Note note);
+  void doot(Note note);
+
 public:
   Toot();
   ~Toot();

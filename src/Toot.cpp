@@ -32,6 +32,7 @@ void Toot::init() {
   if (!e.init()) {
     logE("Couldn't init furnace engine");
   }
+  e.setAutoNotePoly(true);
   wf->was_initialized = true;
 }
 
@@ -88,7 +89,6 @@ void Toot::toot(godot::String path) {
   load_song(path);
   auto wf  = _wf.lock_mut();
   auto & e = wf->e;
-  logI("why the fuck did I even enter this");
 
   logI("playing...");
 
@@ -99,16 +99,25 @@ void Toot::play_note(ShittyNote n) {
   auto note = Note(n);
   doot(note);
 }
-// TODO: check out engine.nextTick
+
+void Toot::depress_note(ShittyNote n) {
+  auto note = Note(n);
+  dedoot(note);
+}
+void Toot::dedoot(Note note) {
+  auto wf  = _wf.lock_mut();
+  auto & e = wf->e;
+
+  e.synchronized([&] {
+    e.autoNoteOff(-1, std::to_underlying(note) + OCTAVE_OFFSET);
+  });
+}
 void Toot::doot(Note note) {
   auto wf  = _wf.lock_mut();
   auto & e = wf->e;
-  //  e.setAutoNotePoly(true);
-  //  e.autoNoteOffAll();
+
   e.synchronized([&] {
-    e.autoNoteOff(-1, std::to_underlying(note));
-    logI(fmt::sprintf("%d", e.autoNoteOn(-1, 2, std::to_underlying(note)))
-             .c_str());
+    e.autoNoteOn(-1, 5, std::to_underlying(note) + OCTAVE_OFFSET);
   });
 }
 
@@ -117,6 +126,10 @@ void Toot::_bind_methods() {
   godot::ClassDB::bind_method(
       godot::D_METHOD("play_note", "n"),
       &Toot::play_note
+  );
+  godot::ClassDB::bind_method(
+      godot::D_METHOD("depress_note", "n"),
+      &Toot::depress_note
   );
   godot::ClassDB::bind_method(
       godot::D_METHOD("toot", "path"),
