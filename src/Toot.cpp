@@ -8,6 +8,7 @@
 #include <fmt/printf.h>
 #include <godot_cpp/classes/class_db_singleton.hpp>
 #include <godot_cpp/classes/file_access.hpp>
+#include <godot_cpp/classes/mesh_instance3d.hpp>
 #include <godot_cpp/classes/worker_thread_pool.hpp>
 #include <godot_cpp/core/class_db.hpp>
 #include <godot_cpp/core/object.hpp>
@@ -95,6 +96,7 @@ void Toot::toot(godot::String path) {
   e.play();
   e.setLoops(1);
 }
+
 void Toot::play_note(ShittyNote n) {
   auto note = Note(n);
   doot(note);

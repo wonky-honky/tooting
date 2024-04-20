@@ -12,7 +12,7 @@
 constexpr char const * default_filename =
     "/addons/tooting/testres/MegadriveOverdrive.fur";
 constexpr char const OCTAVE        = 12;
-constexpr char const OCTAVE_OFFSET = OCTAVE * 5;
+constexpr char const OCTAVE_OFFSET = OCTAVE * 4; // that should be C4 but is it
 enum class Note {
   C,
   Cis,

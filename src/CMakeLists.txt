@@ -9,6 +9,8 @@ target_sources( ${PROJECT_NAME}
         RegisterExtension.cpp
         Toot.h
         Toot.cpp
+        PianoParasite.hpp
+        PianoParasite.cpp
 )
 
 target_include_directories( ${PROJECT_NAME}
