@@ -8,6 +8,7 @@
 
 #include "Example.h"
 #include "GDExtensionTemplate.h"
+#include "PianoParasite.hpp"
 #include "Toot.h"
 
 /// @file
@@ -27,6 +28,7 @@ void initializeExtension(godot::ModuleInitializationLevel p_level) {
   godot::ClassDB::register_class<ExampleRef>();
   godot::ClassDB::register_class<ExampleMin>();
   godot::ClassDB::register_class<Toot>();
+  godot::ClassDB::register_class<PianoParasite>();
   godot::ClassDB::register_class<Example>();
   godot::ClassDB::register_class<ExampleVirtual>(true);
   godot::ClassDB::register_abstract_class<ExampleAbstract>();

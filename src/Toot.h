@@ -27,7 +27,10 @@ enum class Note {
   B,
   H,
 };
-
+struct Tone {
+  Note note;
+  char octave;
+};
 struct WrappedFurnace {
   DivEngine e;
   bool was_initialized; // there is a private thing in furnace that flags this
