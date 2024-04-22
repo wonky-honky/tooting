@@ -29,7 +29,7 @@ void PianoParasite::_bind_methods() {
   );
   ADD_PROPERTY(
       godot::PropertyInfo(godot::Variant::DICTIONARY, "key_map"),
-      "getKeyMap",
-      "setKeyMap"
+      "setKeyMap",
+      "getKeyMap"
   );
 }

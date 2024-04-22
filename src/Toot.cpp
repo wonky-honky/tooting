@@ -39,6 +39,7 @@ void Toot::init() {
 
 void Toot::deinit() {
   auto wf = _wf.lock_mut();
+
   if (wf->was_initialized) {
     auto & e = wf->e;
     if (e.isPlaying())
@@ -46,6 +47,8 @@ void Toot::deinit() {
     e.quit();
     wf->was_initialized = false;
   }
+  finishLogFile(); // this function is leaking the furnace c++ disaster into the
+                   // global namespace but is required to quit the program.
 }
 
 void Toot::load_song(godot::String path) {
