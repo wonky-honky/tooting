@@ -47,8 +47,9 @@ void Toot::deinit() {
     e.quit();
     wf->was_initialized = false;
   }
-  finishLogFile(); // this function is leaking the furnace c++ disaster into the
-                   // global namespace but is required to quit the program.
+  finishLogFile(
+  ); // this function is leaking the furnace c++ namespace/globals disaster into
+     // my global namespace but is required to quit the program.
 }
 
 void Toot::load_song(godot::String path) {

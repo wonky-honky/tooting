@@ -90,7 +90,7 @@ protected:
 private:
   void dedoot(Tone t);
   void doot(Tone t);
-  ShittyNote parse_note(String s) { ShittyNote out; };
+  //  ShittyNote parse_note(String s) { ShittyNote out; };
 
 public:
   Toot();
