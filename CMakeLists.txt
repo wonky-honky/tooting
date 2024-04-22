@@ -25,6 +25,7 @@ set( CMAKE_INTERPROCEDURAL_OPTIMIZATION_RELEASE ON )
 add_subdirectory(extern/furnace)
 
 add_subdirectory(extern/rustex)
+add_subdirectory(extern/ctre)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 if(CMAKE_EXPORT_COMPILE_COMMANDS)
@@ -55,7 +56,7 @@ target_compile_features( ${PROJECT_NAME}
         cxx_std_23
 )
 
-include_directories(${PROJECT_NAME} ${PROJECT_SOURCE_DIR}/extern ${PROJECT_SOURCE_DIR}/extern/furnace/extern/fmt/include )
+include_directories(${PROJECT_NAME} ${PROJECT_SOURCE_DIR}/extern ${PROJECT_SOURCE_DIR}/extern/furnace/extern/fmt/include ${PROJECT_SOURCE_DIR}/extern/ctre/include )
 # LIB_ARCH is the architecture being built. It is set to the build system's architecture.
 # For macOS, we build a universal library (both arm64 and x86_64).
 set( LIB_ARCH ${CMAKE_SYSTEM_PROCESSOR} )
@@ -173,4 +174,5 @@ target_link_libraries( ${PROJECT_NAME}
         godot-cpp
         furnace
         rustex
+        ctre
 )

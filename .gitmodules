@@ -7,3 +7,6 @@
 [submodule "extern/rustex"]
 	path = extern/rustex
 	url = https://github.com/eoan-ermine/rustex.git
+[submodule "extern/ctre"]
+	path = extern/ctre
+	url = https://github.com/hanickadot/compile-time-regular-expressions

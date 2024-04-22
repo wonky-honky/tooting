@@ -8,11 +8,11 @@
 #include <godot_cpp/variant/string.hpp>
 #include <godot_cpp/variant/variant.hpp>
 #include <rustex.h>
-
+#include <utility>
 constexpr char const * default_filename =
     "/addons/tooting/testres/MegadriveOverdrive.fur";
-constexpr char const OCTAVE        = 12;
-constexpr char const OCTAVE_OFFSET = OCTAVE * 4; // that should be C4 but is it
+constexpr char const OCTAVE = 12;
+
 enum class Note {
   C,
   Cis,
@@ -27,10 +27,20 @@ enum class Note {
   B,
   H,
 };
-struct Tone {
-  Note note;
-  char octave;
+enum class Octave {
+  //  DblContra,
+  SubContra,
+  Contra,
+  Great,
+  Small,
+  OnceStricken, // C4
+  TwiceStricken,
+  ThriceStricken,
+  FourX,
+  FiveX
 };
+
+struct Tone;
 struct WrappedFurnace {
   DivEngine e;
   bool was_initialized; // there is a private thing in furnace that flags this
@@ -55,6 +65,18 @@ public:
     B,
     H,
   };
+  enum ShittyOctave {
+    //    DblContra,
+    SubContra,
+    Contra,
+    Great,
+    Small,
+    OnceStricken, // C4
+    TwiceStricken,
+    ThriceStricken,
+    FourX,
+    FiveX
+  };
 
 protected:
   static void _bind_methods();
@@ -63,17 +85,40 @@ protected:
   //  void tick();
   void toot(godot::String path = default_filename);
   void load_song(godot::String path = default_filename);
-  void play_note(Toot::ShittyNote n);
-  void depress_note(Toot::ShittyNote n);
-
   rustex::mutex<WrappedFurnace> _wf;
 
 private:
-  void dedoot(Note note);
-  void doot(Note note);
+  void dedoot(Tone t);
+  void doot(Tone t);
+  ShittyNote parse_note(String s) { ShittyNote out; };
 
 public:
   Toot();
   ~Toot();
+  void play_note_anglo(godot::String n);
+  void play_note(ShittyNote n, ShittyOctave o);
+  void depress_note(ShittyNote n, ShittyOctave o);
 };
 VARIANT_ENUM_CAST(Toot::ShittyNote);
+VARIANT_ENUM_CAST(Toot::ShittyOctave);
+
+struct Tone {
+  Note note;
+  Octave octave;
+  Tone(Note n, Octave o)
+      : note(n)
+      , octave(o){};
+  Tone(Toot::ShittyNote n, Toot::ShittyOctave o) {
+    note   = Note(n);
+    octave = Octave(o);
+  };
+  // I'm 90% sure furnace does this wrong and C4 should be midi 60 but is
+  // actually midi 48
+  int toMidi() {
+    return std::to_underlying(note) + std::to_underlying(octave) * OCTAVE;
+  };
+  Tone(int midi) {
+    note   = Note(midi % 12);
+    octave = Octave(midi / 12);
+  }
+};
