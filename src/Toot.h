@@ -42,7 +42,7 @@ enum class Octave {
 };
 
 struct Tone;
-constexpr unsigned char WF_ALIGNMENT = 128;
+
 struct WrappedFurnace {
   WrappedFurnace()                                           = default;
   WrappedFurnace(WrappedFurnace const &)                     = delete;
@@ -56,7 +56,13 @@ struct WrappedFurnace {
 
 public:
   ~WrappedFurnace() { delete cur_file; };
-} __attribute__((aligned(WF_ALIGNMENT)));
+#ifdef __clang__
+  static constexpr unsigned char ALIGNMENT = 128;
+};
+__attribute__((aligned(WrappedFurnace::ALIGNMENT)));
+#else
+};
+#endif
 
 class Toot : public godot::Node {
   GDCLASS(Toot, godot::Node)
@@ -114,7 +120,7 @@ public:
 };
 VARIANT_ENUM_CAST(Toot::ShittyNote);
 VARIANT_ENUM_CAST(Toot::ShittyOctave);
-constexpr char TONE_ALIGNMENT = 8;
+
 struct Tone {
   Note note;
   Octave octave;
@@ -123,9 +129,7 @@ struct Tone {
       , octave(o) {};
   Tone(Toot::ShittyNote n, Toot::ShittyOctave o)
       : note(Note(n))
-      , octave(Octave(o)) {
-
-      };
+      , octave(Octave(o)) {};
   // I'm 90% sure furnace does this wrong and C4 should be midi 60 but is
   // actually midi 48
   [[nodiscard]] auto toMidi() const -> int {
@@ -133,5 +137,11 @@ struct Tone {
   };
   explicit Tone(int midi)
       : note(Note(midi % OCTAVE))
-      , octave(Octave(midi / OCTAVE)) {}
-} __attribute__((aligned(TONE_ALIGNMENT)));
+      , octave(Octave(midi / OCTAVE)) {};
+#ifdef __clang__
+  static constexpr char ALIGNMENT = 8;
+};
+__attribute__((aligned(Tone::ALIGNMENT)));
+#else
+};
+#endif
