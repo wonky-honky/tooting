@@ -10,3 +10,9 @@
 [submodule "extern/ctre"]
 	path = extern/ctre
 	url = https://github.com/hanickadot/compile-time-regular-expressions
+[submodule "extern/frozen"]
+	path = extern/frozen
+	url = https://github.com/serge-sans-paille/frozen.git
+[submodule "extern/GSL"]
+	path = extern/GSL
+	url = https://github.com/microsoft/GSL

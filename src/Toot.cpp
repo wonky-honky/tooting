@@ -7,6 +7,8 @@
 #include <cstdlib>
 #include <ctre-unicode.hpp>
 #include <fmt/printf.h>
+#include <frozen/string.h>
+#include <frozen/unordered_map.h>
 #include <godot_cpp/classes/class_db_singleton.hpp>
 #include <godot_cpp/classes/file_access.hpp>
 #include <godot_cpp/classes/mesh_instance3d.hpp>
@@ -18,7 +20,7 @@
 #include <godot_cpp/variant/packed_byte_array.hpp>
 #include <godot_cpp/variant/string.hpp>
 #include <godot_cpp/variant/utility_functions.hpp>
-#include <unordered_map>
+#include <gsl/pointers>
 Toot::Toot() { init(); }
 Toot::~Toot() {
   godot::UtilityFunctions::print("Destroying furnace wrapper");
@@ -52,7 +54,7 @@ void Toot::deinit() {
      // my global namespace but is required to quit the program.
 }
 
-void Toot::load_song(godot::String path) {
+void Toot::load_song(godot::String const & path) {
   auto wf         = _wf.lock_mut();
   auto & e        = wf->e;
   auto & cur_file = wf->cur_file;
@@ -78,19 +80,20 @@ void Toot::load_song(godot::String path) {
     logE(fmt::sprintf("couldn't open file! (size error: %s)", strerror(errno))
              .c_str());
   }
-  if (fread(cur_file, 1, (size_t)len, f) != (size_t)len) {
+  if (fread(cur_file, 1, static_cast<size_t>(len), f)
+      != static_cast<size_t>(len)) {
     logE(fmt::sprintf("couldn't open file! (read error: %s)", strerror(errno))
              .c_str());
   }
   fclose(f);
-  if (!e.load(cur_file, (size_t)len, fileName)) {
+  if (!e.load(cur_file, static_cast<size_t>(len), fileName)) {
     logE(fmt::sprintf("could not open file! (%s)", e.getLastError()).c_str());
   }
 
   e.dumpSongInfo();
 }
 
-void Toot::toot(godot::String path) {
+void Toot::toot(godot::String const & path) {
   load_song(path);
   auto wf  = _wf.lock_mut();
   auto & e = wf->e;
@@ -100,26 +103,27 @@ void Toot::toot(godot::String path) {
   e.play();
   e.setLoops(1);
 };
-static std::unordered_map<std::string, Note> const notemap = {
-
-    {"C", Note::C},
-    {"Cis", Note::Cis},
-    {"D", Note::D},
-    {"Es", Note::Es},
-    {"E", Note::E},
-    {"F", Note::F},
-    {"Fis", Note::Fis},
-    {"G", Note::G},
-    {"As", Note::As},
-    {"A", Note::A},
-    {"B", Note::B},
-    {"H", Note::H},
+static constexpr frozen::unordered_map<frozen::string, Note, OCTAVE> const
+    notemap = {
+        {"C", Note::C},
+        {"Cis", Note::Cis},
+        {"D", Note::D},
+        {"Es", Note::Es},
+        {"E", Note::E},
+        {"F", Note::F},
+        {"Fis", Note::Fis},
+        {"G", Note::G},
+        {"As", Note::As},
+        {"A", Note::A},
+        {"B", Note::B},
+        {"H", Note::H},
 };
-void Toot::play_note_anglo(godot::String n) {
+constexpr char BASE10 = 10;
+void Toot::play_note_anglo(godot::String const & n) {
   auto parsed = ctre::match<"(\\w+)([0-9])">(n.utf8());
   auto tone   = Tone(
-      notemap.at(parsed.get<1>().to_string()),
-      Octave(atoi(parsed.get<2>().data()))
+      notemap.at(frozen::string(parsed.get<1>().str())),
+      Octave(strtol(parsed.get<2>().data(), nullptr, BASE10))
   );
   doot(tone);
 }
@@ -191,3 +195,4 @@ void Toot::_bind_methods() {
   BIND_ENUM_CONSTANT(FourX);
   BIND_ENUM_CONSTANT(FiveX);
 }
+

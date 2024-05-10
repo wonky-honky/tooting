@@ -1,0 +1,13 @@
+---
+Checks: "*
+,-llvmlibc*
+,-*readability-braces-around-statements
+,-hicpp-braces-around-statements
+,-readability-identifier-length
+,-fuchsia-default-arguments*
+,-*-non-private-member-variables-in-classes
+,-fuchsia-trailing-return
+,-altera-unroll-loops"
+WarningsAsErrors: ''
+HeaderFilterRegex: ''
+FormatStyle: file

@@ -4,6 +4,7 @@
 #include <godot_cpp/classes/object.hpp>
 #include <godot_cpp/variant/dictionary.hpp>
 #include <godot_cpp/variant/variant.hpp>
+
 class PianoParasite : public godot::Node3D {
   GDCLASS(PianoParasite, godot::Node3D)
 protected:
@@ -15,5 +16,5 @@ private:
 
 public:
   void setKeyMap(godot::Dictionary const & new_key_map);
-  godot::Dictionary getKeyMap() const;
+  [[nodiscard]] auto getKeyMap() const -> godot::Dictionary;
 };

@@ -7,9 +7,11 @@
 #include <memory>
 
 void PianoParasite::testo2() {}
-std::shared_ptr<godot::Dictionary> reverse_dict(godot::Dictionary & in) {
+auto reverse_dict(godot::Dictionary & in
+) -> std::shared_ptr<godot::Dictionary> {
   auto keys     = in.keys();
   auto reversed = std::make_shared<godot::Dictionary>();
+
   for (int i = 0; i < keys.size(); i++) {
     (*reversed)[in[keys[i]]] = keys[i];
   }
