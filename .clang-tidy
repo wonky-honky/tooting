@@ -7,7 +7,8 @@ Checks: "*
 ,-fuchsia-default-arguments*
 ,-*-non-private-member-variables-in-classes
 ,-fuchsia-trailing-return
-,-altera-unroll-loops"
+,-altera-unroll-loops
+,-*else-after-return"
 WarningsAsErrors: ''
 HeaderFilterRegex: ''
 FormatStyle: file
