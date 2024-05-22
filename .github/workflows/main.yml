@@ -5,7 +5,11 @@ on:
     paths-ignore:
       - '.gitignore'
       - '*.md'
-
+  workflow_call:
+    inputs:
+      subdirectory:
+        required: false
+        type: string
 jobs:
 #  lint:
 #    name: 🧹 Lint / 📜 C++
@@ -19,6 +23,9 @@ jobs:
 #          exclude-regex: 'extern'
 
   build:
+    defaults:
+      run:
+        working-directory: ./${{ inputs.subdirectory }}
     strategy:
       fail-fast: false
       matrix:
