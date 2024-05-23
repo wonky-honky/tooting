@@ -113,7 +113,7 @@ jobs:
           -DSYSTEM_SDL2=ON
           -DCMAKE_TOOLCHAIN_FILE=cmake/toolchain.cmake
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
-          --install-prefix install-${{ matrix.build_type }}
+          -DCMAKE_INSTALL_PREFIX=install-${{ matrix.build_type }}
           .
 
       - name: Configure windows
@@ -144,7 +144,7 @@ jobs:
           -DUSE_SDL2=ON
           -DTOOTING_WARNING_AS_ERROR=OFF
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
-          --install-prefix install-${{ matrix.build_type }}
+          -DCMAKE_INSTALL_PREFIX=install-${{ matrix.build_type }}
           .
 
       - name: Build
