@@ -164,7 +164,7 @@ jobs:
         with:
           name: tooting-Debug
           path: |
-            install-${{ matrix.build_type }}/*
+            ${{ github.workspace }}/${{ inputs.subdirectory }}/install-${{ matrix.build_type }}/*
 
       - name: Upload artifact (Release)
         if: matrix.build_type == 'Release'
@@ -172,4 +172,4 @@ jobs:
         with:
           name: tooting-Release
           path: |
-            install-${{ matrix.build_type }}/*
+            ${{ github.workspace }}/${{ inputs.subdirectory }}/install-${{ matrix.build_type }}/*
