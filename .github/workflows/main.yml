@@ -160,7 +160,7 @@ jobs:
           ./linuxdeploy-static-x86_64.AppImage --appdir install-${{ matrix.build_type }} --deploy-deps-only=./install-${{ matrix.build_type}}/tooting/lib/Linux-x86_64
       - name: Upload artifact (Debug)
         if: matrix.build_type == 'Debug'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: tooting-Debug
           path: |
@@ -168,7 +168,7 @@ jobs:
 
       - name: Upload artifact (Release)
         if: matrix.build_type == 'Release'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: tooting-Release
           path: |
