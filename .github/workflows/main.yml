@@ -111,7 +111,7 @@ jobs:
           -DUSE_GLES=OFF
           -DUSE_SDL2=ON
           -DSYSTEM_SDL2=ON
-          -DCMAKE_TOOLCHAIN_FILE=./cmake/toolchain.cmake
+          -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/${{inputs.subdirectory}}/cmake/toolchain.cmake
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           -DCMAKE_INSTALL_PREFIX=install-${{ matrix.build_type }}
           .
