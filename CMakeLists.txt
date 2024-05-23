@@ -130,7 +130,7 @@ set( INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}/" )
 message( STATUS "Install directory: ${INSTALL_DIR}")
 
 
-install( TARGETS ${PROJECT_NAME}
+install( TARGETS ${PROJECT_NAME} furnace
     LIBRARY
         DESTINATION ${INSTALL_DIR}/${LIB_DIR}
     RUNTIME
