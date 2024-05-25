@@ -6,7 +6,6 @@
 #include "godot_cpp/core/defs.hpp"
 #include "godot_cpp/godot.hpp"
 
-#include "GDExtensionTemplate.h"
 #include "PianoParasite.hpp"
 #include "Toot.h"
 
@@ -26,7 +25,6 @@ void initializeExtension(godot::ModuleInitializationLevel p_level) {
 
   godot::ClassDB::register_class<Toot>();
   godot::ClassDB::register_class<PianoParasite>();
-  godot::ClassDB::register_class<GDExtensionTemplate>();
 }
 
 /// @brief Called by Godot to let us do any cleanup.

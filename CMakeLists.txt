@@ -98,14 +98,14 @@ add_custom_command(
             "${CMAKE_SOURCE_DIR}/support_files"
             ${BUILD_OUTPUT_DIR}
 )
-if(LINUX)
-  add_custom_command(
-    TARGET ${PROJECT_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy
-    $<TARGET_FILE:furnace>
-    "${BUILD_OUTPUT_DIR}/${LIB_DIR}/"
-  )
-endif()
+#if(LINUX)
+#  add_custom_command(
+#    TARGET ${PROJECT_NAME} POST_BUILD
+#    COMMAND ${CMAKE_COMMAND} -E copy
+#    $<TARGET_FILE:furnace>
+#    "${BUILD_OUTPUT_DIR}/${LIB_DIR}/"
+#  )
+#endif()
 
 file(MAKE_DIRECTORY "${BUILD_OUTPUT_DIR}/testres")
 add_custom_command(
@@ -129,13 +129,11 @@ set( INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}/" )
 
 message( STATUS "Install directory: ${INSTALL_DIR}")
 
-
-install( TARGETS ${PROJECT_NAME} furnace
-    LIBRARY
-        DESTINATION ${INSTALL_DIR}/${LIB_DIR}
-    RUNTIME
-        DESTINATION ${INSTALL_DIR}/${LIB_DIR}
+set_target_properties(${PROJECT_NAME}
+       PROPERTIES
+       LINK_FLAGS "-Wl,-rpath,\\\$ORIGIN/../../../lib64:\\\$ORIGIN/../../../lib"
 )
+install( TARGETS ${PROJECT_NAME} DESTINATION ${INSTALL_DIR}/${LIB_DIR})
 
 # Copy over support files
 install( DIRECTORY "${CMAKE_SOURCE_DIR}/support_files/"
