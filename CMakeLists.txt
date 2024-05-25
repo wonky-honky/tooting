@@ -131,7 +131,7 @@ message( STATUS "Install directory: ${INSTALL_DIR}")
 
 set_target_properties(${PROJECT_NAME}
        PROPERTIES
-       LINK_FLAGS "-Wl,-rpath,\\\$ORIGIN/../../../usr/lib:\\\$ORIGIN:\\\$ORIGIN/../../../../../../../usr/lib"
+       LINK_FLAGS "-Wl,-rpath,\\\$ORIGIN/../../../usr/lib:\\\$ORIGIN"
 )
 install( TARGETS ${PROJECT_NAME} DESTINATION ${INSTALL_DIR}/${LIB_DIR})
 install( TARGETS furnace DESTINATION usr/lib)
