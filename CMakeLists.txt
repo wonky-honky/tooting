@@ -58,7 +58,7 @@ target_compile_features( ${PROJECT_NAME}
         cxx_std_23
 )
 
-include_directories(${PROJECT_NAME} ${PROJECT_SOURCE_DIR}/extern ${PROJECT_SOURCE_DIR}/extern/furnace/extern/fmt/include ${PROJECT_SOURCE_DIR}/extern/ctre/include ${PROJECT_SOURCE_DIR}/extern/frozen/include ${PROJECT_SOURCE_DIR}/extern/GSL/include)
+include_directories(${PROJECT_NAME} ${PROJECT_SOURCE_DIR}/extern ${FMT_INCLUDE_DIRS} ${PROJECT_SOURCE_DIR}/extern/ctre/include ${PROJECT_SOURCE_DIR}/extern/frozen/include ${PROJECT_SOURCE_DIR}/extern/GSL/include)
 # LIB_ARCH is the architecture being built. It is set to the build system's architecture.
 # For macOS, we build a universal library (both arm64 and x86_64).
 set( LIB_ARCH ${CMAKE_SYSTEM_PROCESSOR} )
