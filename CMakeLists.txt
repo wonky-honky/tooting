@@ -129,11 +129,11 @@ set( INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}/" )
 
 message( STATUS "Install directory: ${INSTALL_DIR}")
 
-#set_target_properties(${PROJECT_NAME}
-#       PROPERTIES
-#       LINK_FLAGS "-Wl,-rpath,\\\$ORIGIN/../../../lib64:\\\$ORIGIN/../../../lib:\\\$ORIGIN"
-#)
-install( TARGETS ${PROJECT_NAME} furnace DESTINATION ${INSTALL_DIR}/${LIB_DIR})
+set_target_properties(${PROJECT_NAME}
+       PROPERTIES
+       LINK_FLAGS "-Wl,-rpath,\\\$ORIGIN/../../../usr/lib:\\\$ORIGIN"
+)
+install( TARGETS ${PROJECT_NAME} furnace DESTINATION usr/lib)
 
 # Copy over support files
 install( DIRECTORY "${CMAKE_SOURCE_DIR}/support_files/"
