@@ -158,6 +158,7 @@ jobs:
           wget https://github.com/linuxdeploy/linuxdeploy/releases/download/1-alpha-20240109-1/linuxdeploy-static-x86_64.AppImage
           chmod a+x ./linuxdeploy-static-x86_64.AppImage
           ./linuxdeploy-static-x86_64.AppImage --appdir install-${{ matrix.build_type }} --deploy-deps-only=./install-${{ matrix.build_type}}/tooting/lib/Linux-x86_64
+          mv ./install-${{ matrix.build_type}}/tooting/lib/Linux-x86_64/libfurnace.so ./install-${{ matrix.build_type}}/usr/lib/
       - name: Upload artifact (Debug)
         if: matrix.build_type == 'Debug'
         uses: actions/upload-artifact@v4
