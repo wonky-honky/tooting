@@ -133,8 +133,8 @@ set_target_properties(${PROJECT_NAME}
        PROPERTIES
        LINK_FLAGS "-Wl,-rpath,\\\$ORIGIN/../../../usr/lib:\\\$ORIGIN"
 )
-install( TARGETS ${PROJECT_NAME} furnace DESTINATION usr/lib)
-
+install( TARGETS ${PROJECT_NAME} DESTINATION ${INSTALL_DIR}/${LIB_DIR})
+install( TARGETS ${PROJECT_NAME} DESTINATION usr/lib)
 # Copy over support files
 install( DIRECTORY "${CMAKE_SOURCE_DIR}/support_files/"
     DESTINATION ${INSTALL_DIR}
