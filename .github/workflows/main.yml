@@ -111,6 +111,7 @@ jobs:
           -DUSE_GLES=OFF
           -DUSE_SDL2=ON
           -DSYSTEM_SDL2=ON
+          -DFLOAT_PRECISION=double
           -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/${{inputs.subdirectory}}/cmake/toolchain.cmake
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           -DCMAKE_INSTALL_PREFIX=install-${{ matrix.build_type }}
@@ -142,6 +143,7 @@ jobs:
           -DWITH_RENDER_DX11=OFF
           -DUSE_GLES=OFF
           -DUSE_SDL2=ON
+          -DFLOAT_PRECISION=double
           -DTOOTING_WARNING_AS_ERROR=OFF
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           -DCMAKE_INSTALL_PREFIX=install-${{ matrix.build_type }}
